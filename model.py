@@ -1,5 +1,4 @@
-# To add a new cell, type '# %%'
-# To add a new markdown cell, type '# %% [markdown]'
+
 # %%
 from IPython import get_ipython
 
@@ -24,7 +23,7 @@ import os
 from tqdm import tqdm
 
 scan_types = ['COVID','non-COVID']
-covid_scans = 'data_set'
+covid_scans = 'predictngcovid/data_set'
 train_set = os.path.join(covid_scans)
 
 def data_cleaning(scan_types):
@@ -100,5 +99,4 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                verbose=1,
                callbacks=[annealer, checkpoint],
                validation_data=(X_val, Y_val))
-
 
