@@ -13,6 +13,7 @@ from tensorflow.keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.applications.densenet import DenseNet121
+from keras.applications.densenet import DenseNet201
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -50,7 +51,6 @@ def input_image(filepath):
     
 def resize_scan_image(image, image_size):
     return cv2.resize(image.copy(), image_size, interpolation=cv2.INTER_AREA)
-#Training data
 X_train_data = np.zeros((data_random.shape[0], IMAGE_SIZE, IMAGE_SIZE, 3))
 for i, file in tqdm(enumerate(data_random['file'].values)):
     image = input_image(file)
@@ -60,24 +60,17 @@ X_Train_data = X_train_data / 255.
 Y_train = data_random['scanid'].values
 Y_train = to_categorical(Y_train, num_classes=2)
 BATCH_SIZE = 32
-X_train_data, X_val, Y_train, Y_val = train_test_split(X_Train_data, Y_train, test_size=0.2, random_state=42)
-
-
-
-
-# %%
-from keras.applications.densenet import DenseNet201
 EPOCHS = 7
 SIZE=224
 N_ch=3
-def build_resnet50():
-    densetnet201 = DenseNet201(weights='imagenet', include_top=False)
+X_train_data, X_val, Y_train, Y_val = train_test_split(X_Train_data, Y_train, test_size=0.2, random_state=42)
 
+# %%
+def build_densenet():
+    densetnet201 = DenseNet201(weights='imagenet', include_top=False)
     input = Input(shape=(224, 224, 3))
     x = Conv2D(3, (3, 3), padding='same')(input)
-    
     x = densetnet201(x)
-    
     x = GlobalAveragePooling2D()(x)
     x = BatchNormalization()(x)
     x = Dense(128, activation='relu')(x)
@@ -85,22 +78,15 @@ def build_resnet50():
     x = Dropout(0.3)(x)
     x = Dense(64, activation='relu')(x)
     x = BatchNormalization()(x)
-
-    # multi output
     output = Dense(2,activation = 'softmax', name='root')(x)
- 
-
     model = Model(input,output)
-    
     optimizer = Adam(lr=0.003, beta_1=0.9, beta_2=0.999, epsilon=0.1, decay=0.0)
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-    model.summary()
-    
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])    
     return model
 
 
 # %%
-model = build_resnet50()
+model = build_densenet()
 annealer = ReduceLROnPlateau(monitor='val_accuracy', factor=0.70, patience=10, verbose=1, min_lr=1e-6)
 checkpoint = ModelCheckpoint('model.h5', verbose=1, save_best_only=True)
 datagen = ImageDataGenerator(rotation_range=20, 
@@ -114,34 +100,5 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                verbose=1,
                callbacks=[annealer, checkpoint],
                validation_data=(X_val, Y_val))
-
-
-# %%
-model = load_model('model.h5')
-final_loss, final_accuracy = model.evaluate(X_val, Y_val)
-print('Final Loss: {}, Final Accuracy: {}'.format(final_loss, final_accuracy))
-
-
-# %%
-from skimage import io
-from keras.preprocessing import image
-#path='imbalanced/Scratch/Scratch_400.jpg'
-img = image.load_img('/Users/josiahcornelius/Desktop/CT_COVID_SCANS/chest-ct-lungs.png', grayscale=False, target_size=(224, 224))
-show_img=image.load_img('/Users/josiahcornelius/Desktop/CT_COVID_SCANS/chest-ct-lungs.png', grayscale=False, target_size=(200, 200))
-disease_class=['Covid-19','Non Covid-19']
-x = image.img_to_array(img)
-x = np.expand_dims(x, axis = 0)
-x /= 255
-
-custom = model.predict(x)
-print(custom[0])
-
-plt.imshow(show_img)
-plt.show()
-
-a=custom[0]
-ind=np.argmax(a)
-        
-print('Diagnois:',disease_class[ind])
 
 
