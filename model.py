@@ -23,7 +23,7 @@ import os
 from tqdm import tqdm
 
 scan_types = ['COVID','non-COVID']
-covid_scans = 'predictngcovid/data_set'
+covid_scans = 'data_set'
 train_set = os.path.join(covid_scans)
 
 def data_cleaning(scan_types):
