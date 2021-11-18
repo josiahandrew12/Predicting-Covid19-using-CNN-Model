@@ -1,3 +1,10 @@
+# To add a new cell, type '# %%'
+# To add a new markdown cell, type '# %% [markdown]'
+# %%
+from IPython import get_ipython
+
+# %%
+#Importing libraries
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
@@ -6,18 +13,20 @@ from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, BatchNormal
 from tensorflow.keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
-from keras.applications.densenet import DenseNet121, DenseNet201
-from skimage import io
-from keras.preprocessing import image
+from keras.applications.densenet import DenseNet121
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-# %matplotlib inline
+get_ipython().run_line_magic('matplotlib', 'inline')
 import seaborn as sns
 import cv2
 import os
 from tqdm import tqdm
 
+# Data imports
+scan_types = ['COVID','non-COVID']
+covid_scans = 'data_set'
+train_set = os.path.join(covid_scans)
 
 # Data Cleaning
 def data_cleaning(scan_types):
@@ -55,7 +64,8 @@ def plot_images(defect_types, rows, cols,):
 plot_images('COVID', 5, 5)
 plot_images('non-COVID', 5, 5)
 
-'''       '''
+
+# %%
 #Image Rezize 
 IMAGE_SIZE = 224
 def input_image(filepath):
@@ -76,8 +86,11 @@ Y_train = to_categorical(Y_train, num_classes=2)
 BATCH_SIZE = 32
 X_train_data, X_val, Y_train, Y_val = train_test_split(X_Train_data, Y_train, test_size=0.2, random_state=42)
 
-'''     '''
 
+
+
+# %%
+from keras.applications.densenet import DenseNet201
 EPOCHS = 7
 SIZE=224
 N_ch=3
@@ -111,7 +124,7 @@ def build_resnet50():
     return model
 
 
-
+# %%
 model = build_resnet50()
 annealer = ReduceLROnPlateau(monitor='val_accuracy', factor=0.70, patience=10, verbose=1, min_lr=1e-6)
 checkpoint = ModelCheckpoint('model.h5', verbose=1, save_best_only=True)
@@ -128,12 +141,15 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                validation_data=(X_val, Y_val))
 
 
+# %%
 model = load_model('model.h5')
 final_loss, final_accuracy = model.evaluate(X_val, Y_val)
 print('Final Loss: {}, Final Accuracy: {}'.format(final_loss, final_accuracy))
 
 
-
+# %%
+from skimage import io
+from keras.preprocessing import image
 #path='imbalanced/Scratch/Scratch_400.jpg'
 img = image.load_img('/Users/josiahcornelius/Desktop/CT_COVID_SCANS/chest-ct-lungs.png', grayscale=False, target_size=(224, 224))
 show_img=image.load_img('/Users/josiahcornelius/Desktop/CT_COVID_SCANS/chest-ct-lungs.png', grayscale=False, target_size=(200, 200))
@@ -152,3 +168,5 @@ a=custom[0]
 ind=np.argmax(a)
         
 print('Diagnois:',disease_class[ind])
+
+
