@@ -4,7 +4,6 @@
 from IPython import get_ipython
 
 # %%
-#Importing libraries
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
@@ -23,12 +22,10 @@ import cv2
 import os
 from tqdm import tqdm
 
-# Data imports
 scan_types = ['COVID','non-COVID']
 covid_scans = 'data_set'
 train_set = os.path.join(covid_scans)
 
-# Data Cleaning
 def data_cleaning(scan_types):
     training_scans = []
     for defects_id, sp in enumerate(scan_types):
@@ -38,35 +35,15 @@ def data_cleaning(scan_types):
     return train_var
     
 data_cleaned = data_cleaning(scan_types)
-print(data_cleaned)
 
-#Data random for better results
 def data_randomization(data_cleaned):
     data_cleaned = data_cleaned.sample(frac=1, random_state=42) 
     data_cleaned.index = np.arange(len(data_cleaned)) 
     return data_cleaned
 
 data_random = data_randomization(data_cleaned)
-print(data_random)
-
-#Plotting data
-def plot_images(defect_types, rows, cols,):
-    fig, axis = plt.subplots(rows, cols, figsize=(12, 12))
-    file_detection = data_random['file'][data_random['scan_types'] == defect_types].values
-    n = 0
-    for i in range(rows):
-        for j in range(cols):
-            image_path = os.path.join(train_set, file_detection[n])
-            axis[i, j].set_xticks([])
-            axis[i, j].set_yticks([])
-            axis[i, j].imshow(cv2.imread(image_path))
-            n += 1
-plot_images('COVID', 5, 5)
-plot_images('non-COVID', 5, 5)
-
 
 # %%
-#Image Rezize 
 IMAGE_SIZE = 224
 def input_image(filepath):
     return cv2.imread(os.path.join(train_set, filepath)) 
@@ -80,7 +57,6 @@ for i, file in tqdm(enumerate(data_random['file'].values)):
     if image is not None:
         X_train_data[i] = resize_scan_image(image, (IMAGE_SIZE, IMAGE_SIZE))
 X_Train_data = X_train_data / 255.
-print('Train Shape: {}'.format(X_train_data.shape))
 Y_train = data_random['scanid'].values
 Y_train = to_categorical(Y_train, num_classes=2)
 BATCH_SIZE = 32
@@ -94,7 +70,6 @@ from keras.applications.densenet import DenseNet201
 EPOCHS = 7
 SIZE=224
 N_ch=3
-#This is a pre-made model from keras.io
 def build_resnet50():
     densetnet201 = DenseNet201(weights='imagenet', include_top=False)
 
