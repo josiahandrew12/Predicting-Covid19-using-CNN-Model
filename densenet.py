@@ -16,6 +16,8 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 import seaborn as sns
 import cv2
 import os
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # %%
 def build_densenet():
@@ -36,7 +38,6 @@ def build_densenet():
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])    
     return model
 
-
 # %%
 model = build_densenet()
 annealer = ReduceLROnPlateau(monitor='val_accuracy', factor=0.70, patience=10, verbose=1, min_lr=1e-6)
@@ -53,3 +54,8 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                callbacks=[annealer, checkpoint],
                validation_data=(X_val, Y_val))
 
+
+
+
+
+# %%
