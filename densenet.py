@@ -1,21 +1,11 @@
 # %%
-from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import train_test_split
-from keras.utils.np_utils import to_categorical
-from keras.models import Model,Sequential, Input, load_model
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, BatchNormalization, AveragePooling2D, GlobalAveragePooling2D
+from keras.models import Model, Input
+from keras.layers import Dense, Dropout, Conv2D, BatchNormalization, GlobalAveragePooling2D
 from tensorflow.keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
-from keras.applications.densenet import DenseNet121
+from keras.models import load_model
 from keras.applications.densenet import DenseNet201
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
-import seaborn as sns
-import cv2
-import os
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -54,10 +44,8 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                callbacks=[annealer, checkpoint],
                validation_data=(X_val, Y_val))
 
-
-
-
-
 # %%
+model = load_model('model.h5')
 final_loss, final_accuracy = model.evaluate(X_val, Y_val)
 print('Final Loss: {}, Final Accuracy: {}'.format(final_loss, final_accuracy))
+# %%
