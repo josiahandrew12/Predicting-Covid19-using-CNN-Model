@@ -45,6 +45,13 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                validation_data=(X_val, Y_val))
 
 # %%
+from keras.models import load_model
+model = load_model('model.h5')
+model_json = model.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+
+# %%
 model = load_model('model.h5')
 final_loss, final_accuracy = model.evaluate(X_val, Y_val)
 print('Final Loss: {}, Final Accuracy: {}'.format(final_loss, final_accuracy))
