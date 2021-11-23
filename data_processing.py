@@ -7,6 +7,7 @@ import cv2
 import os
 from tqdm import tqdm
 
+
 scan_types = ['COVID','non-COVID']
 covid_scans = 'data_set'
 train_set = os.path.join(covid_scans)
@@ -50,4 +51,4 @@ N_ch=3
 X_train_data, X_val, Y_train, Y_val = train_test_split(X_Train_data, Y_train, test_size=0.2, random_state=42)
 
 
-# %%
+
