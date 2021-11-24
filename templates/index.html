@@ -1,50 +1,139 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Image Classification</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+    <head>
+        <title>Image Classification</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <!-- <script type=text/javascript src="{{ url_for('static',
+        filename='js/index.js') }}"> -->
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
+            rel="stylesheet">
+    </head>
+    <script>
+        function fileValue(value) {
+            var path = value.value;
+            var extenstion = path
+                .split('.')
+                .pop();
+            if (extenstion == "jpg" || extenstion == "svg" || extenstion == "jpeg" || extenstion == "png" || extenstion == "gif") {
+                document
+                    .getElementById('image-preview')
+                    .src = window
+                    .URL
+                    .createObjectURL(value.files[0]);
+                var filename = path
+                    .replace(/^.*[\\\/]/, '')
+                    .split('.')
+                    .slice(0, -1)
+                    .join('.');
+                document
+                    .getElementById("filename")
+                    .innerHTML = filename;
+            } else {
+                alert("File not supported. Kindly Upload the Image of below given extension ")
+            }
+        }
+    </script>
+    <body>
+        <div class="container-fluid height-full">
+            <div class="container">
+                <h1 class="jumbotron text-center bg-primary">Predicting Covid Detection with Chest CT</h1>
+                <br><br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <!-- IMAGE UPLOAD -->
+                    <form
+                    class="form-horizontal"
+                    action="/submit"
+                    method="post"
+                    enctype="multipart/form-data">                
+                    <div class="image-upload">
+                    <input type="file" name="my_image" id="pwd" onchange="fileValue(this)">
+                    <label for="pwd" class="upload-field" id="file-label">
+                        <div class="file-thumbnail">
+                            <img
+                                id="image-preview"
+                                src="https://www.btklsby.go.id/images/placeholder/basic.png"
+                                alt="">
+                            <h2 id="filename">
+                                Drag and Drop patient's Chest CT to be scanned
+                            </h2>
+                            <h3 >Supports JPG, PNG, SVG</h3>
+                        </div>
+                    </label>
+                </div>
+                  <div class="text-center">
+                      <button type="submit" class="btn">Test Start</button>
+                  </div>
 
-<div class="container">
-  <h1 class="jumbotron bg-primary">Image Classfication</h1>
-  <br><br>
-  <form class="form-horizontal" action="/submit" method="post" enctype="multipart/form-data">
+                </form>                    
+                  </div>
 
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Upload Your Image :</label>
-      <div class="col-sm-10">          
-        <input type="file" class="form-control" placeholder="Hours Studied"  name="my_image" id="pwd">
-      </div>
-    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class = "example">
+                      <h3 class=text-center>Image Example</h3>
+                    </div>
+                    <div class ="img-example">
+                      <img src = "https://els-jbs-prod-cdn.jbs.elsevierhealth.com/cms/attachment/7b737a97-aa16-43ec-bccb-52116d53cb1d/gr1.jpg">
+                    </div>
+                  </div>
+                </div>
 
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-success">Submit</button>
-      </div>
-    </div>
-  </form>
+                {% if prediction %}
+                    <img src="{{img_path}}" height="400px" width="400px">
+                      <h2>
+                          Your Prediction :
+                          <i>
+                              {{prediction}}
+                          </i>
+                      </h2>
 
-	{% if prediction %}
-  <img src="{{img_path}}" height="400px" width="400px">
-	<h2> Your Prediction   : <i> {{prediction}} </i></h2>
+                {% endif %}
+                <!-- <form
+                    class="form-horizontal"
+                    action="/submit"
+                    method="post"
+                    enctype="multipart/form-data">
 
-	{% endif %}
+                    <div class="form-group">
+                        <div class="control-label col-sm-2" for="pwd">Upload your CHEST CT to be scanned</div>
+                        <div class="col-sm-10">
+                            <input
+                                type="file"
+                                class="form-control"
+                                placeholder="Hours Studied"
+                                name="my_image"
+                                id="pwd">
+                        </div>
+                    </div>
 
-</div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
 
+                {% if prediction %}
+                    <img src="{{img_path}}" height="400px" width="400px">
+                    <h2>
+                        Your Prediction :
+                        <i>
+                            {{prediction}}
+                        </i>
+                    </h2>
 
+                {% endif %} -->
 
+            </div>
 
-
-
-
-</body>
-</html>
-
-
+        </body>
+    </html>
