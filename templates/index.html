@@ -25,13 +25,14 @@
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-success">Submit</button>
+        	<h2> Your Prediction   :  {{prediction}} </h2>
+
       </div>
     </div>
   </form>
 
 	{% if prediction %}
   <img src="{{img_path}}" height="400px" width="400px">
-	<h2> Your Prediction   : <i> {{prediction}} </i></h2>
 
 	{% endif %}
 

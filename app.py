@@ -17,8 +17,16 @@ loaded_model = load_model("model.h5")
 @app.route('/', methods = ['GET', 'POST'])
 def main():
     return render_template("index.html")
-
-def predict_image(img_path):  
+# %%
+# %%
+from flask import Flask, render_template, request
+from keras.models import load_model
+from keras.preprocessing import image
+import numpy as np
+from keras.models import load_model
+from keras.preprocessing import image
+from os.path import join, dirname, realpath
+def predict_image(img_path): 
         disease_class=['Covid-19','Non Covid-19']
         model = load_model("model.h5")
         x = image.load_img(img_path, target_size=(224,224))
@@ -27,10 +35,9 @@ def predict_image(img_path):
         x = x/255.0         
         disease_class=['Covid-19','Non Covid-19']               
         prediction = model.predict(x)
-        print(prediction[0])
         a=prediction[0]
         ind=np.argmax(a)     
-        result = print('Diagnois:',disease_class[ind])
+        result = disease_class[ind] 
         return result
 
 # %%
@@ -43,7 +50,7 @@ def get_files():
         img.save(image_path)
         final_prediction = predict_image(image_path)
         return render_template("index.html", prediction = final_prediction, img_path = image_path)
-
+print(get_files)
 
 if __name__ == '__main__':
     app.run(debug=True)
