@@ -50,7 +50,6 @@ def get_files():
         img.save(image_path)
         final_prediction = predict_image(image_path)
         return render_template("index.html", prediction = final_prediction, img_path = image_path)
-print(get_files)
 
 if __name__ == '__main__':
     app.run(debug=True)
