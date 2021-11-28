@@ -7,8 +7,6 @@ from keras.models import load_model
 from keras.preprocessing import image
 from os.path import join, dirname, realpath
 
-
-
 app = Flask(__name__)
 
 loaded_model = load_model("model.h5")
@@ -17,15 +15,7 @@ loaded_model = load_model("model.h5")
 @app.route('/', methods = ['GET', 'POST'])
 def main():
     return render_template("index.html")
-# %%
-# %%
-from flask import Flask, render_template, request
-from keras.models import load_model
-from keras.preprocessing import image
-import numpy as np
-from keras.models import load_model
-from keras.preprocessing import image
-from os.path import join, dirname, realpath
+
 def predict_image(img_path): 
         disease_class=['Covid-19','Non Covid-19']
         model = load_model("model.h5")
@@ -53,3 +43,5 @@ def get_files():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# %%

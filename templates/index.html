@@ -56,7 +56,7 @@
                     method="post"
                     enctype="multipart/form-data">                
                     <div class="image-upload">
-                    <input type="file" name="my_image" id="pwd" onchange="fileValue(this)">
+                    <input type="file" name="image_input" id="pwd" onchange="fileValue(this)">
                     <label for="pwd" class="upload-field" id="file-label">
                         <div class="file-thumbnail">
                             <img
@@ -72,6 +72,8 @@
                 </div>
                   <div class="text-center">
                       <button type="submit" class="btn">Start Test</button>
+                        <h2> Your Prediction : <i> {{prediction}} </i></h2>
+
                   </div>
 
                 </form>                    
@@ -89,12 +91,7 @@
 
                 {% if prediction %}
                     <img src="{{img_path}}" height="400px" width="400px">
-                      <h2>
-                          Your Prediction :
-                          <i>
-                              {{prediction}}
-                          </i>
-                      </h2>
+                      <h2> Your Prediction : <i> {{prediction}} </i></h2>
 
                 {% endif %}
             </div>
