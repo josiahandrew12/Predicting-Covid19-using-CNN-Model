@@ -36,11 +36,13 @@
                     .join('.');
                 document
                     .getElementById("filename")
-                    .innerHTML = filename;
-            } else {
+                    .innerHTML = filename
+        } else {
                 alert("File not supported. Kindly Upload the Image of below given extension ")
             }
         }
+
+
     </script>
     <body>
         <div class="container-fluid height-full">
@@ -61,24 +63,37 @@
                         <div class="file-thumbnail">
                             <img
                                 id="image-preview"
-                                src="https://www.btklsby.go.id/images/placeholder/basic.png"
+                                src="../static/..{{ image }}"
                                 alt="">
+                                <!-- <img src="../static/{{ image }}"> -->
+
                             <h2 id="filename">
                                 Drag or Drop patient's Chest's CT Scan
                             </h2>
                             <h3 >Supports JPG, PNG, SVG</h3>
+                                <h2> Your Prediction : <i> {{prediction}} </i></h2>   <h2> Model Accuracy : <i> {{accuracy}} </i></h2>
+        
                         </div>
                     </label>
                 </div>
                   <div class="text-center">
-                      <button type="submit" class="btn">Start Test</button>
-                         <h2> Your Prediction : <i> {{prediction}} </i></h2>   <h2> Model Accuracy : <i> {{accuracy}} </i></h2>
-                  </div>
+                      <!-- <button action="/submit" type="display" class="btn" data-toggle="modal" data-target=".bd-example-modal-lg">Start Test</button>
+                      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <h2> Your Prediction : <i> {{prediction}} </i></h2>   <h2> Model Accuracy : <i> {{accuracy}} </i></h2>
+
+                          </div>
+                        </div>
+                      </div> -->
+                      <button action="/submit" type="display" class="btn" >Start Test</button>
+
+                        </div>
 
                 </form>                    
                   </div>
 
-                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 example-container">
                     <div class = "example">
                       <h3 class=text-center>Image Example</h3>
                     </div>

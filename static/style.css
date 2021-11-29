@@ -5,7 +5,7 @@ html {
 }
 
 .container-fluid {
-    background-color: #00458bd8;
+    background-image: url("https://cdn.the-scientist.com/assets/articleNo/67625/hImg/38177/ct-scan-l.webp");
     height: 100%;
     width: 100%;
     font-family: 'Roboto Mono', monospace;
@@ -14,7 +14,7 @@ html {
 
 .container {
     margin-top: 3%;
-    background-color: #9ABCD1;
+    background-color: #1e70a39c;
     height: 90%;
 
 }
@@ -94,4 +94,10 @@ html {
 .text-center {
     margin-top: 7%;
 
+}
+  
+.example-container {
+    background-color: #F4FAFE;
+    height: 500px;
+    width: 200px;
 }

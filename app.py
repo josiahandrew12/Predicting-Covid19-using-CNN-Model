@@ -1,5 +1,5 @@
 # %%
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
@@ -54,9 +54,11 @@ def get_files():
         final_prediction = predict_image(image_path)
         final_accuracy = accuracy_image(image_path)
 
-        return render_template("index.html", prediction = final_prediction,  accuracy = final_accuracy,  img_path = image_path)
+        return render_template("index.html", prediction = final_prediction,  accuracy = final_accuracy,  image = img.filename)
+
+
+
+# %%
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-# %%
