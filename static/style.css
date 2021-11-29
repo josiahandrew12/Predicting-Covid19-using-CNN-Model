@@ -132,7 +132,7 @@ html {
 	margin: auto;
 	opacity: 7;
 	z-index: 1;
-	animation: 1s ease-in-out roll;
+	animation: 1.5s ease-in-out roll;
     margin-top: 30px;
 }
 
