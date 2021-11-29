@@ -60,6 +60,8 @@ html {
 
 .upload-field .file-thumbnail img {
     width: 400px;
+    background-image: url("https://cdn.the-scientist.com/assets/articleNo/67625/hImg/38177/ct-scan-l.webp");
+
 }
 
 .upload-field .file-thumbnail h2 {
@@ -100,4 +102,57 @@ html {
     background-color: #F4FAFE;
     height: 500px;
     width: 200px;
+}
+
+
+/* .file-thumbnail {
+	width: 10em;
+	text-align: center;
+	padding: 6px 2px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	margin: auto;
+	border: dashed .25em rgb(90, 85, 85);
+	transform: translate(-50%);
+} */
+
+.file-thumbnail::after {
+	content: '';
+	background: red;
+	height: 0.25em;
+	width: 29em;
+	/* display: block; */
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: auto;
+	opacity: 7;
+	z-index: 1;
+	animation: 1s ease-in-out roll;
+    margin-top: 30px;
+}
+
+.file-thumbnail img {
+	height: 300px;
+	width: 98%;
+}
+
+#image-preview {
+    background-image: url("https://www.btklsby.go.id/images/placeholder/basic.png");
+    height: 400px;
+}
+@keyframes roll {
+	0% {
+		transform: translateY(-50px);
+	}
+	50% {
+		transform: translateY(400px);
+	}
+	100% {
+		transform: translateY(-100px);
+	}
 }

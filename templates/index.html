@@ -42,6 +42,13 @@
             }
         }
 
+        const button = document.querySelector("button");
+        button.addEventListener("click", e => {
+        document.querySelector(".file-thumbnail").classList.toggle("roll")
+        })
+
+
+
 
     </script>
     <body>
@@ -64,6 +71,8 @@
                             <img
                                 id="image-preview"
                                 src="../static/..{{ image }}"
+
+                                src="https://www.btklsby.go.id/images/placeholder/basic.png"
                                 alt="">
                                 <!-- <img src="../static/{{ image }}"> -->
 
