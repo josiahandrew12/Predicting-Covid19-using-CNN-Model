@@ -9,11 +9,11 @@ from os.path import join, dirname, realpath
 import numpy 
 from connection import s3_connection
 from config import AWS_ACCESS_KEY, BUCKET_NAME, AWS_SECRET_KEY
-import boto
-from boto3.s3.key import Key
+# import boto
+# from boto3.s3.key import Key
 app = Flask(__name__)
 
-s3 = s3_connection()
+# s3 = s3_connection()
 
 # s3.put_object(
 #     Bucket = BUCKET_NAME,
@@ -27,21 +27,21 @@ s3 = s3_connection()
 
 # location = s3.get_bucket_location(Bucket=BUKET_NAME)['LocationConstraint']
 # image_url = f'https://{BUCKET_NAME}.s3.{location}.amazonaws.com/{s3_path}'
-srcFileName = "model.h5"
-destFileName = "model1.h5"
+# srcFileName = "model.h5"
+# destFileName = "model1.h5"
 
-bucketName=BUCKET_NAME
-bucket = s3.get_bucket(bucketName)
+# bucketName=BUCKET_NAME
+# bucket = s3.get_bucket(bucketName)
 
-k = Key(bucket, srcFileName)
-k.get_contents_to_filename(destFileName)
+# k = Key(bucket, srcFileName)
+# k.get_contents_to_filename(destFileName)
 
 @app.route('/', methods = ['GET', 'POST'])
 def main():
     return render_template("index.html")
 
 disease_class=['Covid-19','Non Covid-19']
-model = load_model("model")    
+model = load_model("model.h5")    
 
 def data_processing(img_path):
         x = image.load_img(img_path, target_size=(224,224))
