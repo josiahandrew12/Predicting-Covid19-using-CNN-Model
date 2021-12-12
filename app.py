@@ -7,34 +7,10 @@ from keras.models import load_model
 from keras.preprocessing import image
 from os.path import join, dirname, realpath
 import numpy 
-from connection import s3_connection
-from config import AWS_ACCESS_KEY, BUCKET_NAME, AWS_SECRET_KEY
-# import boto
-# from boto3.s3.key import Key
+
 app = Flask(__name__)
 
-# s3 = s3_connection()
 
-# s3.put_object(
-#     Bucket = BUCKET_NAME,
-#     body = profile_image,
-#     key = s3_path,
-#     contentType = profile_image.content_type
-# )
-# client_s3 = boto3.client("s3")
-# result = client_s3.download_file("h5data", "model.h5", "/tmp/model.h5")
-# model = load_model("/tmp/model.h5")
-
-# location = s3.get_bucket_location(Bucket=BUKET_NAME)['LocationConstraint']
-# image_url = f'https://{BUCKET_NAME}.s3.{location}.amazonaws.com/{s3_path}'
-# srcFileName = "model.h5"
-# destFileName = "model1.h5"
-
-# bucketName=BUCKET_NAME
-# bucket = s3.get_bucket(bucketName)
-
-# k = Key(bucket, srcFileName)
-# k.get_contents_to_filename(destFileName)
 
 @app.route('/', methods = ['GET', 'POST'])
 def main():
