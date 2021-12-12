@@ -1,4 +1,3 @@
-# %%
 from keras.models import Model, Input
 from keras.layers import Dense, Dropout, Conv2D, BatchNormalization, GlobalAveragePooling2D
 from tensorflow.keras.optimizers import Adam
@@ -7,9 +6,11 @@ from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.models import load_model
 from keras.applications.densenet import DenseNet201
 import ssl
+from keras.models import load_model
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# %%
+
 def build_densenet():
     densetnet201 = DenseNet201(weights='imagenet', include_top=False)
     input = Input(shape=(224, 224, 3))
@@ -28,7 +29,7 @@ def build_densenet():
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])    
     return model
 
-# %%
+
 model = build_densenet()
 annealer = ReduceLROnPlateau(monitor='val_accuracy', factor=0.70, patience=10, verbose=1, min_lr=1e-6)
 checkpoint = ModelCheckpoint('model.h5', verbose=1, save_best_only=True)
@@ -44,15 +45,13 @@ hist = model.fit_generator(datagen.flow(X_train_data, Y_train, batch_size=32),
                callbacks=[annealer, checkpoint],
                validation_data=(X_val, Y_val))
 
-# %%
-from keras.models import load_model
+
 model = load_model('model.h5')
 model_json = model.to_json()
 with open("model.json", "w") as json_file:
     json_file.write(model_json)
 
-# %%
 model = load_model('model.h5')
 final_loss, final_accuracy = model.evaluate(X_val, Y_val)
 print('Final Loss: {}, Final Accuracy: {}'.format(final_loss, final_accuracy))
-# %%
+

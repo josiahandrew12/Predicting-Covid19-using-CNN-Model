@@ -1,13 +1,10 @@
 
-# %%
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
 import matplotlib.pyplot as plt
 model = load_model('model.h5')
 
-
-# %%
 img = image.load_img('covid19.jpeg', grayscale=False, target_size=(224, 224))
 show_img=image.load_img('covid19.jpeg', grayscale=False, target_size=(200, 200))
 disease_class=['Covid-19','Non Covid-19']

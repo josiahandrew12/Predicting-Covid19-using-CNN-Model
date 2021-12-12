@@ -1,12 +1,10 @@
-# %%
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
 from keras.models import load_model
 from keras.preprocessing import image
 from os.path import join, dirname, realpath
-import numpy 
 
 app = Flask(__name__)
 
@@ -42,7 +40,6 @@ def accuracy_image(img_path):
             final = a[0]
         return final
 
-# %%
 @app.route('/submit', methods = ['GET', 'POST'])
 def get_files():
     if request.method == 'POST':
@@ -55,9 +52,6 @@ def get_files():
 
         return render_template("index.html", prediction = final_prediction,  accuracy = final_accuracy,  image = img.filename)
 
-
-
-# %%
 
 if __name__ == '__main__':
     app.run(debug=True)
