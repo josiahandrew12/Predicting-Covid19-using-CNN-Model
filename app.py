@@ -21,6 +21,7 @@ def data_processing(img_path):
         x = x.reshape(1,224,224,3)
         x = x/255.0      
         return x
+    
 def predict_image(img_path):  
         x = data_processing(img_path)     
         prediction = model.predict(x)
@@ -28,7 +29,7 @@ def predict_image(img_path):
         ind=np.argmax(a)     
         result = disease_class[ind]
         return result
-
+#Returns accuracy in flask html file
 def accuracy_image(img_path):
         x = data_processing(img_path)        
         prediction = model.predict(x)
