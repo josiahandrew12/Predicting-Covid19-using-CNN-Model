@@ -5,6 +5,7 @@ import numpy as np
 from keras.models import load_model
 from keras.preprocessing import image
 from os.path import join, dirname, realpath
+h=3
 
 app = Flask(__name__)
 
@@ -13,25 +14,25 @@ def main():
     return render_template("index.html")
 
 disease_class=['Covid-19','Non Covid-19']
-model = load_model("model.h5")    
+model = load_model("model.h5")
 
 def data_processing(img_path):
         x = image.load_img(img_path, target_size=(224,224))
         x = image.img_to_array(x)
         x = x.reshape(1,224,224,3)
-        x = x/255.0      
+        x = x/255.0
         return x
-    
-def predict_image(img_path):  
-        x = data_processing(img_path)     
+
+def predict_image(img_path):
+        x = data_processing(img_path)
         prediction = model.predict(x)
         a=prediction[0]
-        ind=np.argmax(a)     
+        ind=np.argmax(a)
         result = disease_class[ind]
         return result
 #Returns accuracy in flask html file
 def accuracy_image(img_path):
-        x = data_processing(img_path)        
+        x = data_processing(img_path)
         prediction = model.predict(x)
         a=prediction[0]
         ind=np.argmax(a)
